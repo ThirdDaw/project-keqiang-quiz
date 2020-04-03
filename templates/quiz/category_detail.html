@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>
+        {{ category.name }}
+    </h1>
+
+
+    <br>
+    {% for test in category.get_tests %}
+
+        <a href="{{ test.get_absolute_url }}"> {{ test.name }} </a>
+        <br>
+
+
+    {% endfor %}
+
+{% endblock content %}

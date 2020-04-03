@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>
+        {{ test.name }}
+    </h1>
+
+
+    <br>
+    <form action="{% url 'test_result' test.category.url test.url %}" method="get">
+        {% for question in test.get_questions %}
+
+            <h4> {{ question.text }} </h4>
+            {% for answer in question.get_answers %}
+                <input type="radio" id="{{ answer.id }}" name="{{ question.text }}" value="{{ answer.text}}">
+                <label for="{{ answer.id }}">{{ answer.text }}</label><br>
+            {% endfor %}
+            <br>
+
+        {% endfor %}
+        <script>
+            function startTimer(duration, display) {
+                var timer = duration, minutes, seconds;
+                setInterval(function () {
+                    minutes = parseInt(timer / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
+
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    display.textContent = minutes + ":" + seconds;
+
+                    if (--timer < 0) {
+                        timer = duration;
+                        document.getElementById("submit-button").click();
+                    }
+                }, 1000);
+            }
+
+            window.onload = function () {
+                var testTime = {{ test.time }},
+                    display = document.querySelector('#time');
+                startTimer(testTime, display);
+            };
+
+            function getUserAnswers() {
+                var answers = [];
+                {% for question in test.get_questions %}
+                    var rad = document.getElementsByName('{{ question.text }}');
+                    {#for (var i = 0; i < {{ test.get_questions.count }}; i++)#}
+                    for (var j = 0; j < rad.length; j++) {
+                        if (rad[j].checked) {
+                            answers.push(rad[j].id)
+                        }
+                    }
+                {% endfor %}
+                console.log(answers)
+            }
+
+        </script>
+
+{#        <button onclick="getUserAnswers()">Checker</button>#}
+
+        <div>Registration closes in <span id="time">{{ test.get_minutes }}</span> minutes!</div>
+
+{#        <button onclick="location.href='{% url 'test_result' test.category.url test.url %}'">Submit</button>#}
+        <button type="submit" id="submit-button">Submit</button>
+    </form>
+{% endblock content %}
