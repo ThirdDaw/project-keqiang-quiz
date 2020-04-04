@@ -1,1 +1,1 @@
-web: gunicorn project-keqiang-quiz.wsgi
+web: gunicorn KeqiangQuiz.wsgi
