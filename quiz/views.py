@@ -63,7 +63,7 @@ def test_result(request, slug, next_slug):
         "result": message
     }
 
-    save_result_in_file(message)
+    # save_result_in_file(message)
     # send_email_with_results(message)
 
     return render(request, "quiz/test_result.html", context=context)
