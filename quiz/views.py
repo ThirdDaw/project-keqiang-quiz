@@ -54,11 +54,16 @@ def test_result(request, slug, next_slug):
 
     result = right_answers_counter / question_counter
 
+    message = "Results for test " + current_test.name + ". \nStudent got right " + str(round(
+        result * 100)) + "% of the tasks. \n" + str(right_answers_counter) + " of " + str(
+        question_counter) + " is correct."
+
     context = {
         "category_list": Category.objects.all(),
-        "result": result
+        "result": message
     }
 
-    save_result_in_file(result)
+    save_result_in_file(message)
+    send_email_with_results(message)
 
     return render(request, "quiz/test_result.html", context=context)
