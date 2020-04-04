@@ -29,7 +29,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100, verbose_name='Test')),
-                ('time', models.TimeField()),
+                # ('time', models.TimeField()),
+                ('time', models.PositiveIntegerField()),
                 ('url', models.SlugField(max_length=160, unique=True)),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='quiz.Category', verbose_name='Category')),
             ],
