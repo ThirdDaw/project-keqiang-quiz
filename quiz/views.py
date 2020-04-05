@@ -29,6 +29,7 @@ class TestDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["category_list"] = Category.objects.all()
+        print("Test started at", datetime.datetime.now())
         return context
 
     slug_field = "url"
@@ -54,9 +55,9 @@ def test_result(request, slug, next_slug):
 
     result = right_answers_counter / question_counter
 
-    message = "Results for test \"" + current_test.name + "\". \nStudent got right " + str(round(
+    message = "Results for test \"" + current_test.name + "\". \nYou got right " + str(round(
         result * 100)) + "% of the tasks. \n" + str(right_answers_counter) + " of " + str(
-        question_counter) + " is correct."
+        question_counter) + " answers is correct."
 
     context = {
         "category_list": Category.objects.all(),
@@ -67,3 +68,10 @@ def test_result(request, slug, next_slug):
     # send_email_with_results(message)
 
     return render(request, "quiz/test_result.html", context=context)
+
+
+def about(request):
+    context = {
+        "category_list": Category.objects.all()
+    }
+    return render(request, "quiz/about.html", context=context)
