@@ -31,10 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'cloudinary_storage',
     'django.contrib.staticfiles',
-    'cloudinary',
-
     'quiz.apps.QuizConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -127,13 +124,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
-# CLOUDINARY
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'hcic2bkd8',
-    'API_KEY': '739686995982781',
-    'API_SECRET': '307qvq7Kkje0awTSW_cunK-6wqA',
-}
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 django_heroku.settings(locals())
