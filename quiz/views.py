@@ -1,13 +1,20 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
-from .models import Category, Test, Question, Answer
+from .models import Category, Test, Question, Answer, Article, Tag
 from .utils import *
 
 
 class CategoriesView(ListView):
     model = Category
-    queryset = Category.objects.all()
+
+    # queryset = Category.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        context["article_list"] = Article.objects.all()
+        return context
+
     template_name = "quiz/index.html"
 
 
@@ -34,6 +41,27 @@ class TestDetailView(DetailView):
 
     slug_field = "url"
 
+
+class ArticleDetailView(DetailView):
+    model = Article
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
+
+    slug_field = 'url'
+
+
+class TagDetailView(DetailView):
+    model = Tag
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
+
+    slug_field = 'url'
 
 def test_result(request, slug, next_slug):
     data = request.GET.dict()

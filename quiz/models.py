@@ -2,6 +2,41 @@ from django.db import models
 from django.urls import reverse
 
 
+class Article(models.Model):
+    name = models.CharField("Article", max_length=255)
+    text = models.TextField("Text")
+    url = models.SlugField(max_length=160, unique=True)
+    date_pub = models.DateTimeField(auto_now_add=True)
+    tags = models.ManyToManyField('Tag', blank=True, related_name='articles')
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("article_detail", kwargs={"slug": self.url})
+
+    class Meta:
+        verbose_name = "Article"
+        verbose_name_plural = "Articles"
+        ordering = ['-date_pub']
+
+
+class Tag(models.Model):
+    title = models.CharField(max_length=50)
+    url = models.SlugField(max_length=50, unique=True)
+
+    def get_absolute_url(self):
+        return reverse('tag_detail', kwargs={'slug': self.url})
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Tag"
+        verbose_name_plural = "Tags"
+        ordering = ['title']
+
+
 class Category(models.Model):
     name = models.CharField("Category", max_length=100)
     url = models.SlugField(max_length=160, unique=True)
